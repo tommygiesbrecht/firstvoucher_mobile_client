@@ -1,0 +1,1 @@
+-keep class com.tommygiesbrecht.firstvoucher_mobile_client.BuildConfig { *; }
