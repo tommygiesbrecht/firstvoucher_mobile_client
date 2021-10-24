@@ -67,7 +67,7 @@ flutter run
 
 ```
 
-More information to run a flutter application you find here: https://flutter.dev/docs
+You find more information to run a flutter application here: https://flutter.dev/docs
 
 ## Set custom theme
 
