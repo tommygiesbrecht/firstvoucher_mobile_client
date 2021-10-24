@@ -12,6 +12,8 @@ With this mobile client you are able to
 
 <img src="/docs/Screen%20Shot%20Search.png" width="50%">
 
+<br> <br> 
+
 <img src="/docs/Screen%20Shot%20Create.png" width="50%">
 
 
@@ -23,7 +25,7 @@ Download or clone this repo by using the link below:
 
 ```
 
-https://github.com/zubairehman/flutter-boilerplate-project.git
+https://github.com/tommygiesbrecht/firstvoucher_mobile_client.git
 
 ```
 
