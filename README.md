@@ -9,10 +9,10 @@ With this mobile client you are able to
 - search for specific vouchers by code-string or QR-Code
 - create redeems for vouchers
 - create new vouchers
-  
-![Search for a voucher](/docs/Screen%20Shot%20Search.png)
 
-![Create a new voucher](/docs/Screen%20Shot%20Create.png)
+<img src="/docs/Screen%20Shot%20Search.png" width="50%">
+
+<img src="/docs/Screen%20Shot%20Create.png" width="50%">
 
 
 ## How to use
