@@ -27,5 +27,6 @@ const MaterialColor paletteAccent =
 const int paletteAccentValue = 0xFF6E71FF;
 
 ThemeData appTheme = ThemeData(
+  useMaterial3: false,
   primarySwatch: palette,
 );

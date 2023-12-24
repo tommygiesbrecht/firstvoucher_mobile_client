@@ -31,6 +31,7 @@ class VoucherListWidget extends StatelessWidget {
               },
             );
           } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
             return NetworkErrorWidget();
           } else {
             return CircularProgressIndicator();

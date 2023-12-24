@@ -132,9 +132,9 @@ class QrCodeScannerState extends State {
     controller.scannedDataStream.listen((scanData) async {
       result = scanData;
       String url = '${Environment.BASE_URL}/check/';
-      String? voucherId = result?.code.substring(url.length);
+      String? voucherId = result?.code?.substring(url.length);
       print(voucherId);
-      if ((result?.code.startsWith(url) ?? false) && voucherId != null) {
+      if ((result?.code?.startsWith(url) ?? false) && voucherId != null) {
         controller.pauseCamera();
         Voucher voucher = await _firstVoucherApi.fetchVoucher(voucherId);
         Navigator.pushAndRemoveUntil(
