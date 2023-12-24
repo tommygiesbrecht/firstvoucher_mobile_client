@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-const MaterialColor palette =
-    MaterialColor(palettePrimaryValue, <int, Color>{
+const MaterialColor palette = MaterialColor(palettePrimaryValue, <int, Color>{
   50: Color(0xFFE5E6F3),
   100: Color(0xFFBFC1E1),
   200: Color(0xFF9497CD),
@@ -15,16 +14,6 @@ const MaterialColor palette =
 });
 
 const int palettePrimaryValue = 0xFF292F9A;
-
-const MaterialColor paletteAccent =
-    MaterialColor(paletteAccentValue, <int, Color>{
-  100: Color(0xFFA1A3FF),
-  200: Color(paletteAccentValue),
-  400: Color(0xFF3B3FFF),
-  700: Color(0xFF2126FF),
-});
-
-const int paletteAccentValue = 0xFF6E71FF;
 
 ThemeData appTheme = ThemeData(
   useMaterial3: false,
