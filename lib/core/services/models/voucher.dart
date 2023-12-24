@@ -5,10 +5,11 @@ class Voucher {
   final double price;
   final double remainingAmount;
   final int redeems;
-  final bool active;
   final String created;
   final bool locked;
   final String guid;
+  final String validFrom;
+  final String validTo;
 
   Voucher({
     required this.code,
@@ -17,10 +18,11 @@ class Voucher {
     required this.price,
     required this.remainingAmount,
     required this.redeems,
-    required this.active,
     required this.created,
     required this.locked,
     required this.guid,
+    required this.validFrom,
+    required this.validTo,
   });
 
   factory Voucher.fromJson(Map<String, dynamic> json) {
@@ -31,10 +33,11 @@ class Voucher {
       price: json['price'],
       remainingAmount: json['remainingAmount'],
       redeems: json['redeems'],
-      active: json['active'],
       created: json['created'],
       locked: json['locked'],
       guid: json['guid'],
+      validFrom: json['validFrom'],
+      validTo: json['validTo'],
     );
   }
 
@@ -46,14 +49,22 @@ class Voucher {
       'price': price,
       'remainingAmount': remainingAmount,
       'redeems': redeems,
-      'active': active,
       'created': created,
       'locked': locked,
       'guid': guid,
+      'validFrom': validFrom,
+      'validTo': validTo,
     };
   }
 
+  bool isValid() {
+    DateTime validFromDate = DateTime.parse(validFrom);
+    DateTime validToDate = DateTime.parse(validTo);
+    DateTime now = DateTime.now();
+    return validFromDate.isBefore(now) && validToDate.isAfter(now);
+  }
+
   bool isActive() {
-    return this.active && !this.locked && remainingAmount > 0;
+    return isValid() && !this.locked && remainingAmount > 0;
   }
 }
