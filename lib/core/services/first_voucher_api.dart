@@ -79,8 +79,8 @@ class FirstVoucherApi {
       ],
     );
 
-    Request request =
-        Request('QUERY', Uri.parse('${BASE_URL}data/Nemo.Shop.Models.Voucher'));
+    Request request = Request('QUERY',
+        Uri.parse('${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher'));
     request.headers.addAll({
       'Authorization': 'Bearer $TOKEN',
     });
