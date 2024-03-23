@@ -6,6 +6,7 @@ import 'package:firstvoucher_mobile_client/core/services/models/voucher.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:http/src/response.dart';
+import 'package:intl/intl.dart';
 
 import 'models/voucher_redeem.dart';
 
@@ -44,8 +45,8 @@ class FirstVoucherApi {
       ],
     );
 
-    Request request =
-        Request('QUERY', Uri.parse('${BASE_URL}data/Nemo.Shop.Models.Voucher'));
+    Request request = Request('QUERY',
+        Uri.parse('${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher'));
     request.headers.addAll({
       'Authorization': 'Bearer $TOKEN',
     });
@@ -115,8 +116,8 @@ class FirstVoucherApi {
       ],
     );
 
-    Request request = Request(
-        'QUERY', Uri.parse('${BASE_URL}data/Nemo.Shop.Models.VoucherRedeem'));
+    Request request = Request('QUERY',
+        Uri.parse('${BASE_URL}data/Nemo.Shop.Vouchers.Models.VoucherRedeem'));
     request.headers.addAll({
       'Authorization': 'Bearer $TOKEN',
     });
@@ -133,11 +134,14 @@ class FirstVoucherApi {
   }
 
   Future<Voucher> createVoucher({required double price}) async {
+    final DateFormat formatter = DateFormat('MM/dd/yyyy HH:mm:ssXXX');
+
     Map<String, dynamic> requestBody = {
       'price': price,
+      'validFrom': formatter.format(new DateTime.now()),
     };
     Response response = await post(
-      Uri.parse('${BASE_URL}data/Nemo.Shop.Models.Voucher'),
+      Uri.parse('${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher'),
       headers: {
         'Authorization': 'Bearer $TOKEN',
       },
@@ -146,8 +150,10 @@ class FirstVoucherApi {
 
     if (response.statusCode == 200) {
       Voucher voucher = Voucher.fromJson(jsonDecode(response.body));
-      voucher.code = voucher.id.toString();
-      return await updateVoucher(voucher: voucher);
+      return voucher;
+      // TODO implement voucher code generation
+      // voucher.code = voucher.id.toString();
+      // return await updateVoucher(voucher: voucher);
     } else {
       throw Exception('Failed to create voucher');
     }
@@ -155,20 +161,18 @@ class FirstVoucherApi {
 
   Future<Voucher> updateVoucher({required Voucher voucher}) async {
     Response response = await put(
-      Uri.parse('${BASE_URL}data/Nemo.Shop.Models.Voucher/${voucher.id}'),
+      Uri.parse(
+          '${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher/${voucher.id}'),
       headers: {
         'Authorization': 'Bearer $TOKEN',
       },
       body: jsonEncode(voucher),
     );
 
-    print(response.statusCode);
-    print(response.body);
-
     if (response.statusCode == 200) {
       return Voucher.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to update voucher');
+      throw Exception('Failed to update voucher: ' + response.body);
     }
   }
 
@@ -181,7 +185,7 @@ class FirstVoucherApi {
       'voucherId': voucherId,
     };
     Response response = await post(
-      Uri.parse('${BASE_URL}data/Nemo.Shop.Models.VoucherRedeem'),
+      Uri.parse('${BASE_URL}data/Nemo.Shop.Vouchers.Models.VoucherRedeem'),
       headers: {
         'Authorization': 'Bearer $TOKEN',
       },

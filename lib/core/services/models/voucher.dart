@@ -8,8 +8,8 @@ class Voucher {
   final String created;
   final bool locked;
   final String guid;
-  final String validFrom;
-  final String validTo;
+  final String? validFrom;
+  final String? validTo;
 
   Voucher({
     required this.code,
@@ -58,10 +58,14 @@ class Voucher {
   }
 
   bool isValid() {
-    DateTime validFromDate = DateTime.parse(validFrom);
-    DateTime validToDate = DateTime.parse(validTo);
-    DateTime now = DateTime.now();
-    return validFromDate.isBefore(now) && validToDate.isAfter(now);
+    if (validTo == null || validFrom == null) {
+      return true;
+    } else {
+      DateTime validFromDate = DateTime.parse(validFrom!);
+      DateTime validToDate = DateTime.parse(validTo!);
+      DateTime now = DateTime.now();
+      return validFromDate.isBefore(now) && validToDate.isAfter(now);
+    }
   }
 
   bool isActive() {
