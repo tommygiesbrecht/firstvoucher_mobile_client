@@ -149,20 +149,20 @@ class FirstVoucherApi {
     );
 
     if (response.statusCode == 200) {
-      Voucher voucher = Voucher.fromJson(jsonDecode(response.body));
-      return voucher;
-      // TODO implement voucher code generation
-      // voucher.code = voucher.id.toString();
-      // return await updateVoucher(voucher: voucher);
+      Map<String, dynamic> voucher = jsonDecode(response.body);
+      //TODO implement voucher code generation
+      voucher['code'] = voucher['id'].toString();
+      print(voucher);
+      return await updateVoucher(voucher: voucher);
     } else {
       throw Exception('Failed to create voucher');
     }
   }
 
-  Future<Voucher> updateVoucher({required Voucher voucher}) async {
+  Future<Voucher> updateVoucher({required Map<String, dynamic> voucher}) async {
     Response response = await put(
       Uri.parse(
-          '${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher/${voucher.id}'),
+          '${BASE_URL}data/Nemo.Shop.Vouchers.Models.Voucher/${voucher['id']}'),
       headers: {
         'Authorization': 'Bearer $TOKEN',
       },
