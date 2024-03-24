@@ -29,6 +29,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   flutter_config: ^2.0.2
   advance_pdf_viewer: ^2.0.1
+  pdfx: ^2.6.0
   flutter_email_sender: ^5.0.2
   path_provider: ^2.1.1
   share: ^2.0.4

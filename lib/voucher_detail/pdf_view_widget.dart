@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:firstvoucher_mobile_client/core/env.dart';
 import 'package:firstvoucher_mobile_client/core/services/error/network_error_snackbar.dart';
 import 'package:firstvoucher_mobile_client/core/services/models/voucher.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:http/http.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:share/share.dart';
 
 class PdfViewWidget extends StatefulWidget {
@@ -26,7 +26,7 @@ class PdfViewState extends State<PdfViewWidget> {
   bool _isLoadingPdf = true;
   bool _isDownloadingPdf = false;
 
-  PDFDocument? document;
+  PdfController? pdfController;
 
   @override
   void initState() {
@@ -36,13 +36,26 @@ class PdfViewState extends State<PdfViewWidget> {
 
   Future<void> _initDocument() async {
     try {
-      document = await PDFDocument.fromURL(_getPdfUrl());
+      final url = _getPdfUrl();
+      pdfController = PdfController(
+        document: PdfDocument.openData(downloadPdf(url)),
+      );
     } on SocketException {
       showNetworkError(context);
     } finally {
       setState(() {
         _isLoadingPdf = false;
       });
+    }
+  }
+
+  Future<Uint8List> downloadPdf(String url) async {
+    final response = await get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load PDF');
     }
   }
 
@@ -95,7 +108,7 @@ class PdfViewState extends State<PdfViewWidget> {
   }
 
   Widget _pdfView() {
-    return document == null
+    return pdfController == null
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +127,7 @@ class PdfViewState extends State<PdfViewWidget> {
               ],
             ),
           )
-        : PDFViewer(document: document!);
+        : PdfView(controller: pdfController!);
   }
 
   String _getPdfUrl() {
